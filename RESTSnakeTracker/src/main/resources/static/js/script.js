@@ -8,8 +8,8 @@ const addEditSnakeDiv = document.getElementById("addEditSnakeDiv");
 const deleteConfirmation = document.getElementById("deleteConfirmation");
 
 // Take add New Snake Button
-const btnAddNewSnake= document.getElementById("addNewSnake");
-btnAddNewSnake.addEventListener("click", (e)=>addNewSnake(e));
+const btnAddNewSnake = document.getElementById("addNewSnake");
+btnAddNewSnake.addEventListener("click", (e) => addNewSnake(e));
 // Take next-previous buttons
 const btnPrevious = document.getElementById("btnPrevious");
 
@@ -17,7 +17,7 @@ const btnNext = document.getElementById("btnNext");
 
 // Take back to main, edit informaiton, and delete buttons
 const btnBackToMain = document.getElementById("btnBackToMain");
-btnBackToMain.addEventListener("click", ()=>loadAllSnakes());
+btnBackToMain.addEventListener("click", () => loadAllSnakes());
 const btnEditThis = document.getElementById("btnEditThis");
 btnEditThis.addEventListener("click", (e) => editSnake(e));
 const btnDeleteThis = document.getElementById("btnDeleteThis");
@@ -28,29 +28,29 @@ const btnConfirm = addEditForm.btnConfirm;
 const btnCancel = addEditForm.btnCancel;
 btnCancel.addEventListener("click", (e) => {
 	e.preventDefault();
-	if(e.target.snakeId!==undefined){
-	hideDiv(addEditSnakeDiv);
-	showDiv(controlButtons);	
-	}else{
+	if (e.target.snakeId !== undefined) {
+		hideDiv(addEditSnakeDiv);
+		showDiv(controlButtons);
+	} else {
 		loadAllSnakes(); // case adding new snake
 	}
-	
+
 })
 btnConfirm.addEventListener("click", (e) => confirmEdit(e));
 //link the form controls and the display snake details
-addEditForm.inputSnakeType.addEventListener("input", (e)=>{
-	const snakeType=document.getElementById("snakeType");
-	snakeType.textContent=e.target.value;
+addEditForm.inputSnakeType.addEventListener("input", (e) => {
+	const snakeType = document.getElementById("snakeType");
+	snakeType.textContent = e.target.value;
 })
-addEditForm.inputSnakeDescription.addEventListener("input", (e)=>{
-	const snakeDescription=document.getElementById("snakeDesription");
-	snakeDescription.textContent=e.target.value;
+addEditForm.inputSnakeDescription.addEventListener("input", (e) => {
+	const snakeDescription = document.getElementById("snakeDesription");
+	snakeDescription.textContent = e.target.value;
 })
-addEditForm.inputSnakeImageURL.addEventListener("input", (e)=>{
-	const snakeImg=document.getElementById("snakeImg");
-	e.target.value===""?
-	snakeImg.src="https://static.vecteezy.com/system/resources/thumbnails/004/141/669/small_2x/no-photo-or-blank-image-icon-loading-images-or-missing-image-mark-image-not-available-or-image-coming-soon-sign-simple-nature-silhouette-in-frame-isolated-illustration-vector.jpg"
-	:snakeImg.src=e.target.value;
+addEditForm.inputSnakeImageURL.addEventListener("input", (e) => {
+	const snakeImg = document.getElementById("snakeImg");
+	e.target.value === "" ?
+		snakeImg.src = "https://static.vecteezy.com/system/resources/thumbnails/004/141/669/small_2x/no-photo-or-blank-image-icon-loading-images-or-missing-image-mark-image-not-available-or-image-coming-soon-sign-simple-nature-silhouette-in-frame-isolated-illustration-vector.jpg"
+		: snakeImg.src = e.target.value;
 })
 
 
@@ -233,7 +233,7 @@ function confirmEdit(e) {
 		description: addEditForm.inputSnakeDescription.value,
 		pictureUrl: addEditForm.inputSnakeImageURL.value,
 	}
-	e.target.snakeId!==undefined?putSnake(snake, e): postSnake(snake,e);
+	e.target.snakeId !== undefined ? putSnake(snake, e) : postSnake(snake, e);
 }
 // helper: put snake
 function putSnake(snake, e) {
@@ -243,24 +243,24 @@ function putSnake(snake, e) {
 	xhr.setRequestHeader("Content-type", "application/json"); // Specify JSON request body
 	xhr.onreadystatechange = function() {
 		if (xhr.readyState === xhr.DONE) {
-			if (xhr.status == 201||xhr.status == 200) {
+			if (xhr.status == 201 || xhr.status == 200) {
 				showSnakeDetails(e);
 			}
 		}
 	}
-xhr.send(JSON.stringify(snake))
+	xhr.send(JSON.stringify(snake))
 }
 
 // btn Add new Snake
-function addNewSnake(e){
+function addNewSnake(e) {
 	hideAllDivs();
-	const emptySnake={
+	const emptySnake = {
 		snakeType: "",
 		description: "",
 		pictureUrl: "https://static.vecteezy.com/system/resources/thumbnails/004/141/669/small_2x/no-photo-or-blank-image-icon-loading-images-or-missing-image-mark-image-not-available-or-image-coming-soon-sign-simple-nature-silhouette-in-frame-isolated-illustration-vector.jpg"
 	}
 	renderSnakeDetails(emptySnake);
-	emptySnake.pictureUrl="";
+	emptySnake.pictureUrl = "";
 	loadFormData(emptySnake);
 }
 // helper: post snake
@@ -271,16 +271,32 @@ function postSnake(snake, e) {
 	xhr.setRequestHeader("Content-type", "application/json"); // Specify JSON request body
 	xhr.onreadystatechange = function() {
 		if (xhr.readyState === xhr.DONE) {
-			if (xhr.status == 201||xhr.status == 200) {
-				console.log("new snake added");
+			if (xhr.status == 201 || xhr.status == 200) {
 				loadAllSnakes();
 			}
 		}
 	}
-xhr.send(JSON.stringify(snake))
+	xhr.send(JSON.stringify(snake))
 }
 
 // btn Delete (landing page)
 function deleteSnakeWithoutConfirmation(e) {
 	console.log(e.target.snakeId);
+	deleteSnake(e);
+}
+//helper: deletesnake
+function deleteSnake(e) {
+	const relativeURL = `/api/snakes/${e.target.snakeId}`;
+	const xhr = new XMLHttpRequest();
+	xhr.open("DELETE", relativeURL);
+	xhr.onreadystatechange = function() {
+		if (xhr.readyState === xhr.DONE) {
+			console.log(xhr.status);
+			if (xhr.status === 204) {
+				console.log("snake Deleted");
+				loadAllSnakes();
+			}
+		}
+	}
+	xhr.send();
 }
