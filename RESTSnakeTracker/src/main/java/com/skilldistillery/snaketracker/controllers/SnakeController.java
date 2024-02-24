@@ -61,7 +61,7 @@ public class SnakeController {
 			if(snake==null) {
 				res.setStatus(404);
 			}else {
-				res.setStatus(201);				
+				res.setStatus(200);				
 			}
 		} catch (Exception e) {
 			res.setStatus(400);
