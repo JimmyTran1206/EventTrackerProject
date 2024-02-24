@@ -21,6 +21,7 @@ btnBackToMain.addEventListener("click", () => loadAllSnakes());
 const btnEditThis = document.getElementById("btnEditThis");
 btnEditThis.addEventListener("click", (e) => editSnake(e));
 const btnDeleteThis = document.getElementById("btnDeleteThis");
+btnDeleteThis.addEventListener("click", (e) => deleteSnakeDialog(e))
 
 // Take form buttons and inputs
 const addEditForm = document.addEditForm;
@@ -51,6 +52,15 @@ addEditForm.inputSnakeImageURL.addEventListener("input", (e) => {
 	e.target.value === "" ?
 		snakeImg.src = "https://static.vecteezy.com/system/resources/thumbnails/004/141/669/small_2x/no-photo-or-blank-image-icon-loading-images-or-missing-image-mark-image-not-available-or-image-coming-soon-sign-simple-nature-silhouette-in-frame-isolated-illustration-vector.jpg"
 		: snakeImg.src = e.target.value;
+})
+
+// take delete diaglog buttons
+const btnConfirmDelete = document.getElementById("btnConfirmDelete");
+btnConfirmDelete.addEventListener("click", (e)=>confirmDelete(e));
+const btnCancelDelete = document.getElementById("btnCancelDelete");
+btnCancelDelete.addEventListener("click", (e) => {
+	hideDiv(deleteConfirmation);
+	showDiv(controlButtons);
 })
 
 
@@ -281,7 +291,6 @@ function postSnake(snake, e) {
 
 // btn Delete (landing page)
 function deleteSnakeWithoutConfirmation(e) {
-	console.log(e.target.snakeId);
 	deleteSnake(e);
 }
 //helper: deletesnake
@@ -291,12 +300,35 @@ function deleteSnake(e) {
 	xhr.open("DELETE", relativeURL);
 	xhr.onreadystatechange = function() {
 		if (xhr.readyState === xhr.DONE) {
-			console.log(xhr.status);
 			if (xhr.status === 204) {
-				console.log("snake Deleted");
 				loadAllSnakes();
 			}
 		}
 	}
 	xhr.send();
+}
+function deleteSnakeDialog(e) {
+	hideAllDivs();
+	// querying for snake with specific id=e.target.snakeId
+	const relativeURL = `/api/snakes/${e.target.snakeId}`;
+	const xhr = new XMLHttpRequest;
+	xhr.open("GET", relativeURL);
+	xhr.onreadystatechange = function() {
+		if (xhr.readyState === xhr.DONE) {
+			if (xhr.status === 200) {
+				const snake = JSON.parse(xhr.responseText);
+				renderSnakeDetails(snake);
+				// stash snakeid into edit and delete btn
+				btnConfirmDelete.snakeId = snake.id;
+				hideDiv(controlButtons);
+				showDiv(deleteConfirmation);
+			}
+		}
+
+	}
+	xhr.send();
+}
+
+function confirmDelete(e){
+	deleteSnake(e);
 }
