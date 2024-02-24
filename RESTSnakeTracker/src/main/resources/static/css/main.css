@@ -1,6 +1,8 @@
 body{
 	background-color: antiquewhite;
+	min-height:100vh;
 }
 .hidden{
-	display: none
+	display: none;
 }
+
