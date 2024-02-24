@@ -12,8 +12,9 @@ const btnAddNewSnake = document.getElementById("addNewSnake");
 btnAddNewSnake.addEventListener("click", (e) => addNewSnake(e));
 // Take next-previous buttons
 const btnPrevious = document.getElementById("btnPrevious");
-
+btnPrevious.addEventListener("click", (e) => processPrevious(e));
 const btnNext = document.getElementById("btnNext");
+btnNext.addEventListener("click", (e) => processNext(e));
 
 // Take back to main, edit informaiton, and delete buttons
 const btnBackToMain = document.getElementById("btnBackToMain");
@@ -56,7 +57,7 @@ addEditForm.inputSnakeImageURL.addEventListener("input", (e) => {
 
 // take delete diaglog buttons
 const btnConfirmDelete = document.getElementById("btnConfirmDelete");
-btnConfirmDelete.addEventListener("click", (e)=>confirmDelete(e));
+btnConfirmDelete.addEventListener("click", (e) => confirmDelete(e));
 const btnCancelDelete = document.getElementById("btnCancelDelete");
 btnCancelDelete.addEventListener("click", (e) => {
 	hideDiv(deleteConfirmation);
@@ -182,8 +183,9 @@ function showSnakeDetails(e) {
 				// stash snakeid into edit and delete btn
 				btnEditThis.snakeId = snake.id;
 				btnDeleteThis.snakeId = snake.id;
+				btnNext.snakeId = snake.id;
+				btnPrevious.snakeId = snake.id;
 				showDiv(controlButtons);
-
 			}
 		}
 
@@ -216,6 +218,8 @@ function editSnake(e) {
 				// stash snakeid into edit and delete btn
 				btnEditThis.snakeId = snake.id;
 				btnDeleteThis.snakeId = snake.id;
+				btnNext.snakeId = snake.id;
+				btnPrevious.snakeId = snake.id;
 				loadFormData(snake);
 			}
 		}
@@ -307,6 +311,7 @@ function deleteSnake(e) {
 	}
 	xhr.send();
 }
+// Delete dialog popup
 function deleteSnakeDialog(e) {
 	hideAllDivs();
 	// querying for snake with specific id=e.target.snakeId
@@ -328,7 +333,60 @@ function deleteSnakeDialog(e) {
 	}
 	xhr.send();
 }
-
-function confirmDelete(e){
+// Confirm deletion
+function confirmDelete(e) {
 	deleteSnake(e);
+}
+
+// Process next and previous buttons
+function processNext(e) {
+	// Goal: find id of the next snake relative to the current one
+	// if the current one is the end of the list, hide the button
+	// load all snake to take a list
+	const relativeURL = "/api/snakes";
+	const xhr = new XMLHttpRequest;
+	xhr.open("GET", relativeURL);
+	xhr.onreadystatechange = function() {
+		if (xhr.readyState === xhr.DONE) {
+			if (xhr.status === 200) {
+				const snakeList = JSON.parse(xhr.responseText);
+				const currentIndex = snakeList.findIndex(snake => snake.id === e.target.snakeId);
+				if (currentIndex === snakeList.length - 1) {
+					hideDiv(btnNext);
+					showDiv(btnPrevious);
+				} else {
+					showDiv(btnNext);
+					showDiv(btnPrevious);
+					e.target.snakeId=snakeList[currentIndex+1].id
+					showSnakeDetails(e);
+				}
+			}
+		}
+	}
+	xhr.send();
+}
+
+function processPrevious(e) {
+
+	const relativeURL = "/api/snakes";
+	const xhr = new XMLHttpRequest;
+	xhr.open("GET", relativeURL);
+	xhr.onreadystatechange = function() {
+		if (xhr.readyState === xhr.DONE) {
+			if (xhr.status === 200) {
+				const snakeList = JSON.parse(xhr.responseText);
+				const currentIndex = snakeList.findIndex(snake => snake.id === e.target.snakeId);
+				if (currentIndex === 0) {
+					hideDiv(btnPrevious);
+					showDiv(btnNext);
+				} else {
+					showDiv(btnNext);
+					showDiv(btnPrevious);
+					e.target.snakeId=snakeList[currentIndex-1].id
+					showSnakeDetails(e);
+				}
+			}
+		}
+	}
+	xhr.send();
 }
