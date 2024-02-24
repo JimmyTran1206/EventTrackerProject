@@ -31,7 +31,7 @@ THe front end is build using HTML, CSS, and Bootstrap. The application logic and
 
 ## Lesson learned
 
-- Creating RESTful API using Java Spring Boot
+- Creating RESTful API using Java Spring Boot.
 - Single page application design using Javascript DOM manipulation.
 - Front end RESTful API query using asynchronous Javascript XMLHttpRequest and Fetch API.
 - Design reusable components with different functionality using Javascript only.
