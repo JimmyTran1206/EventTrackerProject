@@ -4,6 +4,12 @@
 
 ## Description
 
+### Live deployment
+
+This project has been deployed on AWS at [http://52.14.238.144:8080/RESTSnakeTracker](http://52.14.238.144:8080/RESTSnakeTracker/). Let's check it out and make some CRUDs.
+
+### Project at a glance
+
 ![](HomePage.png)
 This event tracker is a full-stack app to track the snakes and reptiles that user encounter at San Diego zoo. Whenever I bring my kid to San Diego zoo, he spent a lot of time observing snakes, turtles, and reptiles. This snake database would be a good place to store and retrieve all the informaiton we get about the reptiles at San Diego Zoo. The database can be access using RESTful api with following end points
 
