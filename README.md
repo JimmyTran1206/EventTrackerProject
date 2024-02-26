@@ -21,7 +21,7 @@ This event tracker is a full-stack app to track the snakes and reptiles that use
 | PUT       | `/api/snakes/{id}` | JSON of new version of snake/reptile information | JSON of updated snake/reptile information      | 200, 404, 400 |
 | DELETE    | `/api/snakes/{id}` |                                                  |                                                | 204, 404, 400 |
 
-THe front end is build using HTML, CSS, and Bootstrap. The application logic and REST database access are build using asynchronous Javascript. The app employ single-page approach where all the request/responses and user interaction happening on just a single page without reloading. The user can do full CRUD, including viewing all snakes in the database, updating and deleting snake entries, and creating new entries. At any point in the app, the user can navigate freely between different views on a same page without any hassle.
+The front end is built using HTML, CSS, and Bootstrap. The application logic and REST database access are built using asynchronous Javascript. The app employs single-page approach where all the request/responses and user interaction happening on just a single page without reloading. The user can do full CRUD, including viewing all snakes in the database, updating and deleting snake entries, and creating new entries. At any point in the app, the user can navigate freely between different views on a same page without any hassles.
 ![](SnakeDetail.png)
 ![](EditSnake.png)
 
