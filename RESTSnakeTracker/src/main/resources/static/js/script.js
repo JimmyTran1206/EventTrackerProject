@@ -86,13 +86,12 @@ function hideDiv(div) {
 
 // Landing page
 window.addEventListener("load", function() {
-	hideAllDivs();
 	loadAllSnakes();
 })
 
 // http request-resposne 
 function loadAllSnakes() {
-	const relativeURL = "/api/snakes";
+	const relativeURL = "api/snakes";
 	const xhr = new XMLHttpRequest;
 	xhr.open("GET", relativeURL);
 	xhr.onreadystatechange = function() {
@@ -172,7 +171,7 @@ function displaySnakeList(snakeList) {
 function showSnakeDetails(e) {
 	hideAllDivs();
 	// querying for snake with specific id=e.target.snakeId
-	const relativeURL = `/api/snakes/${e.target.snakeId}`;
+	const relativeURL = `api/snakes/${e.target.snakeId}`;
 	const xhr = new XMLHttpRequest;
 	xhr.open("GET", relativeURL);
 	xhr.onreadystatechange = function() {
@@ -207,7 +206,7 @@ function renderSnakeDetails(snake) {
 function editSnake(e) {
 	hideAllDivs();
 	// querying for snake with specific id=e.target.snakeId
-	const relativeURL = `/api/snakes/${e.target.snakeId}`;
+	const relativeURL = `api/snakes/${e.target.snakeId}`;
 	const xhr = new XMLHttpRequest;
 	xhr.open("GET", relativeURL);
 	xhr.onreadystatechange = function() {
@@ -251,7 +250,7 @@ function confirmEdit(e) {
 }
 // helper: put snake
 function putSnake(snake, e) {
-	const relativeURL = `/api/snakes/${e.target.snakeId}`;
+	const relativeURL = `api/snakes/${e.target.snakeId}`;
 	const xhr = new XMLHttpRequest();
 	xhr.open("PUT", relativeURL);
 	xhr.setRequestHeader("Content-type", "application/json"); // Specify JSON request body
@@ -279,7 +278,7 @@ function addNewSnake(e) {
 }
 // helper: post snake
 function postSnake(snake, e) {
-	const relativeURL = `/api/snakes`;
+	const relativeURL = `api/snakes`;
 	const xhr = new XMLHttpRequest();
 	xhr.open("POST", relativeURL);
 	xhr.setRequestHeader("Content-type", "application/json"); // Specify JSON request body
@@ -299,7 +298,7 @@ function deleteSnakeWithoutConfirmation(e) {
 }
 //helper: deletesnake
 function deleteSnake(e) {
-	const relativeURL = `/api/snakes/${e.target.snakeId}`;
+	const relativeURL = `api/snakes/${e.target.snakeId}`;
 	const xhr = new XMLHttpRequest();
 	xhr.open("DELETE", relativeURL);
 	xhr.onreadystatechange = function() {
@@ -315,7 +314,7 @@ function deleteSnake(e) {
 function deleteSnakeDialog(e) {
 	hideAllDivs();
 	// querying for snake with specific id=e.target.snakeId
-	const relativeURL = `/api/snakes/${e.target.snakeId}`;
+	const relativeURL = `api/snakes/${e.target.snakeId}`;
 	const xhr = new XMLHttpRequest;
 	xhr.open("GET", relativeURL);
 	xhr.onreadystatechange = function() {
@@ -343,7 +342,7 @@ function processNext(e) {
 	// Goal: find id of the next snake relative to the current one
 	// if the current one is the end of the list, hide the button
 	// load all snake to take a list
-	const relativeURL = "/api/snakes";
+	const relativeURL = "api/snakes";
 	const xhr = new XMLHttpRequest;
 	xhr.open("GET", relativeURL);
 	xhr.onreadystatechange = function() {
@@ -368,7 +367,7 @@ function processNext(e) {
 
 function processPrevious(e) {
 
-	const relativeURL = "/api/snakes";
+	const relativeURL = "api/snakes";
 	const xhr = new XMLHttpRequest;
 	xhr.open("GET", relativeURL);
 	xhr.onreadystatechange = function() {
