@@ -6,7 +6,7 @@
 
 ### Live deployment
 
-This project has been deployed on AWS at [http://52.14.238.144:8080/RESTSnakeTracker](http://52.14.238.144:8080/RESTSnakeTracker/). Let's check it out and make some CRUDs.
+This project is built by Angular and Spring Boot. It has been deployed on AWS at [http://52.14.238.144:8080/RESTSnakeTracker](http://52.14.238.144:8080/RESTSnakeTracker/). The old version of this project which is built by Javascript and Spring Boot which is deployed at [http://52.14.238.144:8080/RESTSnakeTracker/indexStatic.html](http://52.14.238.144:8080/RESTSnakeTracker/indexStatic.html). Two versions share the same database to demonstrate different ways to solve a same problem. Angular framework helps to speed up the development process. Let's check it out and make some CRUDs.
 
 ### Project at a glance
 
