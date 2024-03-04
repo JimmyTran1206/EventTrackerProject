@@ -1,0 +1,279 @@
+<main class="container">
+  <!-- Welcome and add a snake -->
+  <div class="container mt-4" id="welcomeHeader" *ngIf="showWelcomeHeader">
+    <div class="row">
+      <div class="col-9">
+        <h1>Welcome to snake tracker</h1>
+      </div>
+      <div class="col-3 text-end pt-2">
+        <button
+          class="btn btn-success"
+          id="addNewSnake"
+          (click)="addNewSnake()"
+        >
+          Add a new snake
+        </button>
+      </div>
+    </div>
+  </div>
+  <!-- Welcome and add a snake -->
+
+  <!-- Empty snake list announcement -->
+  <div
+    id="emptySnakeList"
+    class="text-center mt-4"
+    *ngIf="snakes.length === 0 && showFrontPage"
+  >
+    <p class="display-6">
+      There is no snake in your list. Click "Add a snake" to add a new snake to
+      your database or contact the admin to reset the database.
+    </p>
+  </div>
+  <!-- End empty snake list announcement -->
+
+  <!-- Start snakeList -->
+  <div id="snakeList" class="mt-4" *ngIf="snakes.length !== 0 && showFrontPage">
+    <div id="snakeListDiv">
+      <table class="table table-hover">
+        <thead class="table-dark">
+          <tr>
+            <th>Preview</th>
+            <th>Type</th>
+            <th>Details</th>
+            <th>Edit</th>
+            <th>Delete</th>
+          </tr>
+        </thead>
+        <tbody id="snakeTable">
+          <tr *ngFor="let snake of snakes">
+            <td>
+              <img
+                [src]="snake.pictureUrl"
+                alt=""
+                height="50px"
+                width="80px"
+                style="border-radius: 5px"
+              />
+            </td>
+            <td style="width: 50%">{{ snake.snakeType }}</td>
+            <td>
+              <button
+                class="btn btn-primary"
+                (click)="showSnakeDetails(snake.id)"
+              >
+                Details
+              </button>
+            </td>
+            <td>
+              <button class="btn btn-warning" (click)="showEditForm(snake)">
+                Edit
+              </button>
+            </td>
+            <td>
+              <button class="btn btn-danger" (click)="deleteSnake(snake.id)">
+                Delete
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <!-- END snakeList -->
+
+  <!-- Snake Details -->
+  <div id="snakeDetailDiv" *ngIf="showDetailPage">
+    <div class="container">
+      <div class="row m-4">
+        <div class="col text-center">
+          <p class="h1 display-1" id="snakeType">
+            {{ selectedSnake.snakeType }}
+          </p>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col text-center">
+          <img
+            [src]="selectedSnake.pictureUrl"
+            alt="snakePicture"
+            width="75%"
+            style="border-radius: 10px"
+            id="snakeImg"
+          />
+        </div>
+      </div>
+      <div class="row m-4">
+        <div class="col">
+          <p class="display-6" id="snakeDesription">
+            {{ selectedSnake.description }}
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- End snake details -->
+
+  <!-- Snake Detail control buttons -->
+  <div id="controlButtons" *ngIf="showControlButtons">
+    <div class="container">
+      <div class="row m-4" id="navigationSection">
+        <div class="col" style="display: flex; justify-content: space-between">
+          <button
+            class="btn btn-info"
+            id="btnPrevious"
+            *ngIf="showPreviousButton"
+            (click)="showPreviousSnake(selectedSnake)"
+          >
+            Previous
+          </button>
+          <button
+            class="btn btn-info"
+            id="btnNext"
+            *ngIf="showNextButton"
+            (click)="showNextSnake(selectedSnake)"
+          >
+            Next
+          </button>
+        </div>
+      </div>
+      <div class="row m-4" id="controlSection">
+        <div class="col" style="display: flex; justify-content: space-between">
+          <button
+            class="btn btn-primary"
+            id="btnBackToMain"
+            (click)="backToMain()"
+          >
+            Back to main
+          </button>
+          <button
+            class="btn btn-warning"
+            id="btnEditThis"
+            (click)="showEditForm(selectedSnake)"
+          >
+            Edit Information
+          </button>
+          <button
+            class="btn btn-danger"
+            id="btnDeleteThis"
+            (click)="showDeleteConfirmDialog()"
+          >
+            Delete
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- End Snake Detail Control Session -->
+
+  <!-- Add/Edit Snake form -->
+  <div id="addEditSnakeDiv" *ngIf="showAddEditForm">
+    <div class="container">
+      <div class="row">
+        <div class="col-2"></div>
+        <div class="col-8">
+          <div class="form-group mt-4">
+            <label for="inputSnakeType">Snake Type</label>
+            <input
+              type="text"
+              class="form-control"
+              id="inputSnakeType"
+              placeholder="Snake type"
+              name="inputSnakeType"
+              [(ngModel)]="selectedSnake.snakeType"
+            />
+          </div>
+          <div class="form-group mt-4">
+            <label for="inputSnakeImageURL">Snake Image URL</label>
+            <input
+              type="text"
+              class="form-control"
+              id="inputSnakeImageURL"
+              placeholder="Snake image URL"
+              name="inputSnakeImageURL"
+              [(ngModel)]="selectedSnake.pictureUrl"
+            />
+          </div>
+          <div class="form-group mt-4">
+            <label for="inputSnakeDescription">Snake Description</label>
+            <textarea
+              class="form-control"
+              id="inputSnakeDescription"
+              placeholder="Snake Description"
+              name="inputSnakeDescription"
+              rows="5"
+              [(ngModel)]="selectedSnake.description"
+            ></textarea>
+          </div>
+          <div
+            class="form-group mt-4"
+            style="display: flex; justify-content: space-between"
+          >
+            <button
+              type="submit"
+              class="btn btn-primary"
+              id="btnConfirm"
+              name="btnConfirm"
+              (click)="
+                selectedSnake.id === 0
+                  ? confirmAddingNewSnake(selectedSnake)
+                  : confirmEdit(selectedSnake, selectedSnake.id)
+              "
+            >
+              Confirm
+            </button>
+            <button
+              type="submit"
+              class="btn btn-primary"
+              id="btnCancel"
+              name="btnCancel"
+              (click)="
+                selectedSnake.id === 0 ? cancelAddNewSnake() : cancelEdit()
+              "
+            >
+              Cancel
+            </button>
+          </div>
+        </div>
+        <div class="col-2"></div>
+      </div>
+    </div>
+  </div>
+  <!-- End adding new snake -->
+
+  <!-- Delete confirmation -->
+  <div id="deleteConfirmation" *ngIf="showDeleteConfirmation">
+    <div class="container">
+      <div class="row">
+        <div class="col text-center">
+          <p class="display-6" id="deleteConfirmMsg">
+            Are you sure to delete this snake?
+          </p>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-2"></div>
+        <div
+          class="col-8"
+          style="display: flex; justify-content: space-between"
+        >
+          <button
+            class="btn btn-danger"
+            id="btnConfirmDelete"
+            (click)="deleteSnake(selectedSnake.id)"
+          >
+            Confirm
+          </button>
+          <button
+            class="btn btn-primary"
+            id="btnCancelDelete"
+            (click)="cancelDelete()"
+          >
+            Cancel
+          </button>
+        </div>
+        <div class="col-2"></div>
+      </div>
+    </div>
+  </div>
+  <!-- End delete confirmation -->
+</main>
