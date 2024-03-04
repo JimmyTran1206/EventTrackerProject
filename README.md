@@ -27,6 +27,7 @@ The front end is built using HTML, CSS, and Bootstrap. The application logic and
 
 ## Technology used
 
+- Angular
 - HTML, CSS, Bootstrap, Javascript
 - Java JPA/ JPA Repository
 - Spring Boot
